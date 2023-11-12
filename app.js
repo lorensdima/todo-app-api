@@ -8,7 +8,7 @@ const app = express();
 
 // Connect to the database
 mongoose.connect(
-  `mongodb://${config.db.userName}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.dbName}`
+  `mongodb://${config.db.userName}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.dbName}?directConnection=true`
 );
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));

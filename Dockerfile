@@ -12,6 +12,9 @@ RUN npm install
 # Copy all local files to the working directory
 COPY . .
 
+# Set environment variable for Docker
+ENV DATABASE_URL=host.docker.internal
+
 # Expose the port the app runs on
 EXPOSE 3000
 

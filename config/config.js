@@ -1,9 +1,9 @@
-// config/config.js
+require("dotenv").config();
 
 module.exports = {
   // Your configuration parameters (e.g., database connection details)
   db: {
-    host: "127.0.0.1",
+    host: process.env.DATABASE_URL,
     port: 27017,
     dbName: "mydatabase",
     userName: "clients",
