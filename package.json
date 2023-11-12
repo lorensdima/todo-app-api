@@ -1,0 +1,14 @@
+{
+    "name": "todo-app-api",
+    "version": "1.0.0",
+    "description": "To Do app API",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "build": "docker build -t todo-app-api ."
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "mongoose": "^8.0.0"
+    }
+}
