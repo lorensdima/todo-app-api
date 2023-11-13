@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const config = require("./config/config");
-const userRoutes = require("./routes/userRoutes");
+const registerRoutes = require("./middlewares/registerRoutes");
 const authMiddleware = require("./middlewares/authMiddleware");
 
 const app = express();
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(authMiddleware.isConnectedToDatabase);
 
 // Routes
-app.use("/api", userRoutes);
+app.use("/api", registerRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
