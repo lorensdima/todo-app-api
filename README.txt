@@ -24,3 +24,12 @@ APIs:
         "group": "",
         "assignedTo": "6550da34a2e08ab6e5f80147"
     }
+/api/user-c
+ - POST request
+ - creates user with hashed password
+ - Sample body:
+    {
+        "name": "Emilio Laurence",
+        "password": "admin",
+        "email": "lorens@gugel.com"
+    }

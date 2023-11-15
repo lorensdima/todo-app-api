@@ -2,6 +2,19 @@
 // para iwas na rin sa duplicates ng mga queries kasi dun sa services nilalagay ang queries
 const userService = require("../services/userService");
 
+exports.createUser = async (req, res) => {
+  try {
+    const { name, password, email } = req.body;
+
+    const user = await userService.createUser(name, password, email);
+
+    res.status(201).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 exports.getUser = async (req, res) => {
   try {
     const userId = req.params.id;

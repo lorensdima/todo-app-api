@@ -1,14 +1,17 @@
 // Define dito yung pagquery at manipulate ng data from db
 const User = require("../models/userModel");
 
-/*
-// Service for getting using ID. DOES NOT WORK
-exports.getUserById = async (userId) => {
-  // Your business logic to fetch a user by ID
-  const user = await User.find();
+exports.createUser = async (name, password, email) => {
+  const user = new User({
+    name,
+    password,
+    email,
+  });
+
+  await user.save();
+
   return user;
 };
-*/
 
 exports.getUsers = async () => {
   // Sample ng query sa mongodb ang .find()
