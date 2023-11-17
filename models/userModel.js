@@ -1,7 +1,7 @@
 // Eto yung paggawa ng schema sa database/collection na gusto mong access
 // pweding di lahat ng fields ay ang ilagay mo sa schema
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 const userSchema = new mongoose.Schema({
   name: { type: String },

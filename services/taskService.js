@@ -15,19 +15,14 @@ exports.createTask = async (title, description, status, group, assignedTo) => {
 };
 
 exports.getAllTasks = async () => {
-  // Sample ng query sa mongodb ang .find()
-  // Parang select * from...
   const task = await Task.find({});
   return task;
 };
 
 exports.getUsersTask = async (assignedToFilter) => {
-  // Create a query object with the provided filter
-  // ano yung mga filter na ilalagay sa {}...
-  const query = assignedToFilter ? { assignedTo: assignedToFilter } : {};
-
+  const query = assignedToFilter ? { "assignedTo.$oid": assignedToFilter } : {};
   // Use the query to filter tasks
   const tasks = await Task.find(query);
 
   return tasks;
-}
+};
