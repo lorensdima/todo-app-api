@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const config = require("./config/config");
 const registerRoutes = require("./middlewares/registerRoutes");
 const authMiddleware = require("./middlewares/authMiddleware");
+const cors = require("cors");
 
 const app = express();
 
@@ -17,6 +18,7 @@ db.once("open", async () => console.log("Connected to MongoDB"));
 // Middleware or Authentication
 app.use(express.json());
 app.use(authMiddleware.isConnectedToDatabase);
+app.use(cors());
 
 // Routes
 app.use("/api", registerRoutes);
