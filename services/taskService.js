@@ -26,3 +26,22 @@ exports.getUsersTask = async (assignedToFilter) => {
 
   return tasks;
 };
+
+exports.updateTask = async (taskID, updatedData) => {
+  const filter = { _id: taskID };
+  const update = {
+    title: updatedData.title,
+    description: updatedData.description,
+    status: updatedData.status,
+    assignedTo: updatedData.assignedTo,
+    group: updatedData.group,
+  };
+  Task.updateOne(filter, update)
+    .then((result) => {
+      console.log("Task Update Successful");
+    })
+    .catch((err) => {
+      return err;
+    });
+  return { status: "Document updated successfully" };
+};

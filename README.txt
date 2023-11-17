@@ -13,6 +13,9 @@ APIs:
 /api/tasks
  - GET request
  - returns all tasks in the DB
+/api/tasks/:oid
+ - GET request
+ - returns all tasks for a user using their oid (object ID)
 /api/task-c
  - POST request
  - creates a new task
@@ -23,6 +26,18 @@ APIs:
         "status": "finished",
         "group": "",
         "assignedTo": "6550da34a2e08ab6e5f80147"
+    }
+/api/task-u
+ - POST request
+ - updates an existing task
+ - Sample body:
+    {
+        "taskID": "65523caa9fafb6cdeb126449",
+        "title": "Finish Filter Groups Page",
+        "description": "Create a page for filtering using groups",
+        "status": "done",
+        "group": "group 1",
+        "assignedTo":  "6550da34a2e08ab6e5f80147"
     }
 /api/user-c
  - POST request

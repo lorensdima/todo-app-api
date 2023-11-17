@@ -1,6 +1,6 @@
 const taskService = require("../services/taskService");
 
-exports.createUser = async (req, res) => {
+exports.createTask = async (req, res) => {
   try {
     const { title, description, status, group, assignedTo } = req.body;
 
@@ -12,6 +12,26 @@ exports.createUser = async (req, res) => {
       assignedTo
     );
 
+    res.status(201).json(task);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.updateTask = async (req, res) => {
+  try {
+    const { taskID, title, description, status, group, assignedTo } = req.body;
+
+    const tempJSON = {
+      title: title,
+      description: description,
+      status: status,
+      group: group,
+      assignedTo: assignedTo,
+    };
+
+    const task = await taskService.updateTask(taskID, tempJSON);
     res.status(201).json(task);
   } catch (error) {
     console.error(error);
@@ -39,7 +59,6 @@ exports.getUsersTask = async (req, res) => {
     res.status(200).json({ tasks });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
