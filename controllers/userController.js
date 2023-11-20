@@ -4,9 +4,9 @@ const userService = require("../services/userService");
 
 exports.createUser = async (req, res) => {
   try {
-    const { name, password, email } = req.body;
+    const { username, name, password, email } = req.body;
 
-    const user = await userService.createUser(name, password, email);
+    const user = await userService.createUser(username, name, password, email);
 
     res.status(201).json(user);
   } catch (error) {
@@ -38,6 +38,6 @@ exports.getUserData = async (req, res) => {
     res.json({ userObject });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
