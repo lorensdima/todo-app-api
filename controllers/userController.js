@@ -27,3 +27,17 @@ exports.getUser = async (req, res) => {
 };
 
 // Other controller functions...
+// Controller function to handle GET requests with a 'name' parameter
+exports.getUserData = async (req, res) => {
+  try {
+    const inputString = req.params.inputString;
+
+    // Use the userService to create an object with the provided string
+    const userObject = await userService.getUserData(inputString);
+
+    res.json({ userObject });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};

@@ -21,3 +21,12 @@ exports.getUsers = async () => {
 };
 
 // Other service functions...
+exports.getUserData = async (inputString) => {
+  const user = new User({
+    inputValue: inputString,
+  });
+
+  await user.save();
+
+  return user;
+};

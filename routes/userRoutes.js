@@ -10,5 +10,8 @@ const authMiddleware = require("../middlewares/authMiddleware");
 // yung "/api/" na part eh kasi dun sa app.js, dinefine natin yun na ganun yung link niya
 router.get("/user-c", authMiddleware.authenticate, userController.createUser);
 router.get("/users", authMiddleware.authenticate, userController.getUser);
+// Define route for GET requests with an 'inputString' parameter
+router.get('get-user/:name', userController.getUserData);
+
 
 module.exports = router;
