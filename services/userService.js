@@ -1,9 +1,8 @@
 // Define dito yung pagquery at manipulate ng data from db
 const User = require("../models/userModel");
 
-exports.createUser = async (username, name, password, email) => {
+exports.createUser = async (name, password, email) => {
   const user = new User({
-    username,
     name,
     password,
     email,
@@ -24,7 +23,7 @@ exports.getUsers = async () => {
 // Other service functions...
 exports.getUserData = async (inputString) => {
   const user = new User({
-    inputValue: inputString,
+    username: inputString,
   });
 
   await user.save();
