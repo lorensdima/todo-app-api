@@ -21,12 +21,8 @@ exports.getUsers = async () => {
 };
 
 // Other service functions...
-exports.getUserData = async (inputString) => {
-  const user = new User({
-    username: inputString,
-  });
-
-  await user.save();
+exports.getUserData = async (usernameInput) => {
+  const user = await User.find({username: usernameInput});
 
   return user;
 };

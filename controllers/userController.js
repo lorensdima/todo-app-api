@@ -30,10 +30,10 @@ exports.getUser = async (req, res) => {
 // Controller function to handle GET requests with a 'name' parameter
 exports.getUserData = async (req, res) => {
   try {
-    const inputString = req.params.inputString;
+    const usernameInput = req.params.username;
 
     // Use the userService to create an object with the provided string
-    const userObject = await userService.getUserData(inputString);
+    const userObject = await userService.getUserData(usernameInput);
 
     res.json({ userObject });
   } catch (error) {
