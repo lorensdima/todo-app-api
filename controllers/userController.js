@@ -1,6 +1,7 @@
 // Dito na yung paggamit ng services. Hiwalay siya sa services kase para magamit yung ibang service ng ibang controller
 // para iwas na rin sa duplicates ng mga queries kasi dun sa services nilalagay ang queries
 const userService = require("../services/userService");
+const bcrypt = require("bcryptjs");
 
 exports.createUser = async (req, res) => {
   try {
@@ -41,3 +42,30 @@ exports.getUserData = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+exports.authorize = async (req, res) => {
+  try {
+    const usernameInput = req.params.username;
+    const passwordInput = req.params.password;
+
+    const userObject = await userService.getUserData(usernameInput);
+
+    password = userObject.password;
+
+    console.log('Input Password:', passwordInput);
+    console.log('Stored Password:', password);
+
+    compareFlag = bcrypt.functionToCompare(passwordInput, password);
+
+    if (compareFlag) {
+      return {status: true};
+    }
+
+    return {status: false};
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error"});
+  }
+};
+
+
