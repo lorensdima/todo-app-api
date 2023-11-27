@@ -21,7 +21,7 @@ exports.createTask = async (req, res) => {
 
 exports.updateTask = async (req, res) => {
   try {
-    const { taskID, title, description, status, group, assignedTo } = req.body;
+    const { _id, title, description, status, group, assignedTo } = req.body;
 
     const tempJSON = {
       title: title,
@@ -31,7 +31,7 @@ exports.updateTask = async (req, res) => {
       assignedTo: assignedTo,
     };
 
-    const task = await taskService.updateTask(taskID, tempJSON);
+    const task = await taskService.updateTask(_id, tempJSON);
     res.status(201).json(task);
   } catch (error) {
     console.error(error);
