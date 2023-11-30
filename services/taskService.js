@@ -45,3 +45,17 @@ exports.updateTask = async (taskID, updatedData) => {
     });
   return { status: "Document updated successfully" };
 };
+
+exports.deleteTask = async (taskId) => {
+  try {
+    const deletedTask = await Task.findByIdAndDelete(taskId);
+
+    if (deletedTask) {
+      console.log('Task deleted successfully:', deletedTask);
+    } else {
+      console.log('Task not found');
+    }
+  } catch (error) {
+    console.error('Error deleting task:', error.message);
+  }
+};
