@@ -45,12 +45,11 @@ exports.getUserData = async (req, res) => {
 
 exports.authorize = async (req, res) => {
   try {
-    const usernameInput = req.params.username;
     const { username, password } = req.body;
 
     const userObject = await userService.getUserData(username);
 
-    const storedPassword = userObject.userObject[0].password
+    const storedPassword = userObject.password
 
     const compareFlag = await bcrypt.compare(password, storedPassword);
 
