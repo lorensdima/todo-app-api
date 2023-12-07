@@ -76,3 +76,16 @@ exports.deleteTask = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+exports.getTasksAndCountForUser = async (req, res) => {
+  try {
+    const assignedToFilter = req.params.assignedTo; // Assuming the parameter is part of the URL path
+
+    const { tasks, taskCount } = await taskService.getTasksAndCountForUser(assignedToFilter);
+
+    res.status(200).json({ tasks, taskCount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};

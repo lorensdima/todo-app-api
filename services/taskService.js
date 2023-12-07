@@ -70,3 +70,22 @@ exports.deleteTask = async (taskId) => {
     console.error('Error deleting task:', error.message);
   }
 };
+
+exports.getTasksAndCountForUser = async (assignedToFilter) => {
+  try {
+    const query = assignedToFilter
+      ? { assignedTo: new ObjectId(assignedToFilter) }
+      : {};
+
+    // Use the query to filter tasks
+    const tasks = await Task.find(query);
+
+    // Count the number of tasks for the user
+    const taskCount = tasks.length;
+
+    return { tasks, taskCount };
+  } catch (error) {
+    console.error('Error retrieving tasks:', error.message);
+    return { error: 'Error retrieving tasks', tasks: [], taskCount: 0 };
+  }
+};
