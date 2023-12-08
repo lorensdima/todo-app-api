@@ -45,22 +45,19 @@ exports.getUserData = async (req, res) => {
 
 exports.authorize = async (req, res) => {
   try {
-    const usernameInput = req.params.username;
     const { username, password } = req.body;
 
     const userObject = await userService.getUserData(username);
 
-    const storedPassword = userObject.userObject[0].password
+    const storedPassword = userObject.password;
 
     const compareFlag = await bcrypt.compare(password, storedPassword);
 
-    if (compareFlag) {
-      return res.json({ status: true });
-    }
-
-    return res.json({ status: false });
+    return compareFlag
+      ? res.json({ status: true })
+      : res.json({ status: false });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };

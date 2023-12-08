@@ -59,3 +59,36 @@ exports.updateTask = async (taskID, updatedData) => {
     return { status: "Document update failed", error: err.message };
   }
 };
+
+exports.deleteTask = async (taskId) => {
+  try {
+    const deletedTask = await Task.findByIdAndDelete(taskId);
+
+    if (deletedTask) {
+      console.log('Task deleted successfully:', deletedTask);
+    } else {
+      console.log('Task not found');
+    }
+  } catch (error) {
+    console.error('Error deleting task:', error.message);
+  }
+};
+
+exports.getTasksAndCountForUser = async (assignedToFilter) => {
+  try {
+    const query = assignedToFilter
+      ? { assignedTo: new ObjectId(assignedToFilter) }
+      : {};
+
+    // Use the query to filter tasks
+    const tasks = await Task.find(query);
+
+    // Count the number of tasks for the user
+    const taskCount = tasks.length;
+
+    return { tasks, taskCount };
+  } catch (error) {
+    console.error('Error retrieving tasks:', error.message);
+    return { error: 'Error retrieving tasks', tasks: [], taskCount: 0 };
+  }
+};

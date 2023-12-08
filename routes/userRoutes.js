@@ -8,4 +8,5 @@ router.get("/users", authMiddleware.authenticate, userController.getUser);
 router.get("/get-user/:username", userController.getUserData);
 router.post("/authorize", userController.authorize)
 
+
 module.exports = router;

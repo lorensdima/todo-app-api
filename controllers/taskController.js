@@ -62,3 +62,30 @@ exports.getUsersTask = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+// Controller function to handle DELETE request for a task by ID
+exports.deleteTask = async (req, res) => {
+  try {
+    const taskId = req.params.taskId; // Assuming the parameter is part of the URL path
+
+    await taskService.deleteTask(taskId);
+
+    res.status(200).json({ message: 'Task deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.getTasksAndCountForUser = async (req, res) => {
+  try {
+    const assignedToFilter = req.params.assignedTo; // Assuming the parameter is part of the URL path
+
+    const { tasks, taskCount } = await taskService.getTasksAndCountForUser(assignedToFilter);
+
+    res.status(200).json({ tasks, taskCount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};

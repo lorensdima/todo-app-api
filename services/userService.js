@@ -20,7 +20,7 @@ exports.getUsers = async () => {
 
 // Other service functions...
 exports.getUserData = async (usernameInput) => {
-  const user = await User.find({ username: usernameInput });
+  const user = await User.findOne({ username: usernameInput });
 
   return user;
 };
