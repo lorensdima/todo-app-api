@@ -22,8 +22,14 @@ exports.getAllTasks = async () => {
 
 exports.getUsersTask = async (assignedToFilter) => {
   const query = assignedToFilter
-    ? { assignedTo: new ObjectId(assignedToFilter) }
+    ? {
+        $or: [
+          { assignedTo: new ObjectId(assignedToFilter) },
+          { collaborators: new ObjectId(assignedToFilter) },
+        ],
+      }
     : {};
+
   // Use the query to filter tasks
   const tasks = await Task.find(query);
 
@@ -44,14 +50,11 @@ exports.updateTask = async (taskID, updatedData) => {
     const result = await Task.findOneAndUpdate(filter, update, { new: true });
 
     if (result) {
-      console.log("Task Update Successful");
       return { status: "Document updated successfully", updatedTask: result };
     } else {
-      console.log("Task not found");
       return { status: "Document not found" };
     }
   } catch (err) {
-    console.log("Task Update Not Successful");
     console.error(err);
     return { status: "Document update failed", error: err.message };
   }
