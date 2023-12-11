@@ -1,7 +1,6 @@
-// Dito na yung paggamit ng services. Hiwalay siya sa services kase para magamit yung ibang service ng ibang controller
-// para iwas na rin sa duplicates ng mga queries kasi dun sa services nilalagay ang queries
 const userService = require("../services/userService");
 const bcrypt = require("bcryptjs");
+const passport = require("passport");
 
 exports.createUser = async (req, res) => {
   try {
@@ -43,6 +42,26 @@ exports.getUserData = async (req, res) => {
   }
 };
 
+exports.login = (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      // Authentication failed
+      return res.status(401).json({ message: "Authentication failed" });
+    }
+
+    // Log in the user
+    req.login(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.json({ message: "Login successful", user });
+    });
+  })(req, res, next);
+};
+
 exports.authorize = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -54,7 +73,7 @@ exports.authorize = async (req, res) => {
     const compareFlag = await bcrypt.compare(password, storedPassword);
 
     return compareFlag
-      ? res.json({ status: true })
+      ? res.json({ status: true, user: userObject })
       : res.json({ status: false });
   } catch (error) {
     console.error(error);

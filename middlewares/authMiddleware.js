@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 // Matic na authenticated para testing
 exports.authenticate = (req, res, next) => {
-  return next();
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/login");
 };
 // Check lang kung connected sa db
 exports.isConnectedToDatabase = (req, res, next) => {
