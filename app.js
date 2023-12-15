@@ -51,6 +51,7 @@ passport.use(
         }
 
         // If credentials are correct, return the user object
+        user.password = "";
         return done(null, user);
       } catch (error) {
         return done(error);
