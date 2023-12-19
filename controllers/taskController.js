@@ -2,14 +2,26 @@ const taskService = require("../services/taskService");
 
 exports.createTask = async (req, res) => {
   try {
-    const { title, description, status, group, assignedTo } = req.body;
+    const {
+      title,
+      description,
+      status,
+      group,
+      assignedTo,
+      collaborators,
+      dueDate,
+      modifiedBy,
+    } = req.body;
 
     const task = await taskService.createTask(
       title,
       description,
       status,
       group,
-      assignedTo
+      assignedTo,
+      collaborators,
+      dueDate,
+      modifiedBy
     );
 
     res.status(201).json(task);
@@ -21,7 +33,16 @@ exports.createTask = async (req, res) => {
 
 exports.updateTask = async (req, res) => {
   try {
-    const { _id, title, description, status, group, assignedTo } = req.body;
+    const {
+      _id,
+      title,
+      description,
+      status,
+      group,
+      assignedTo,
+      dueDate,
+      modifiedBy,
+    } = req.body;
 
     const tempJSON = {
       title: title,
@@ -29,6 +50,8 @@ exports.updateTask = async (req, res) => {
       status: status,
       group: group,
       assignedTo: assignedTo,
+      dueDate: dueDate,
+      modifiedBy: modifiedBy,
     };
 
     const task = await taskService.updateTask(_id, tempJSON);
@@ -70,7 +93,7 @@ exports.deleteTask = async (req, res) => {
 
     await taskService.deleteTask(taskId);
 
-    res.status(200).json({ message: 'Task deleted successfully' });
+    res.status(200).json({ message: "Task deleted successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -81,7 +104,9 @@ exports.getTasksAndCountForUser = async (req, res) => {
   try {
     const assignedToFilter = req.params.assignedTo; // Assuming the parameter is part of the URL path
 
-    const { tasks, taskCount } = await taskService.getTasksAndCountForUser(assignedToFilter);
+    const { tasks, taskCount } = await taskService.getTasksAndCountForUser(
+      assignedToFilter
+    );
 
     res.status(200).json({ tasks, taskCount });
   } catch (error) {

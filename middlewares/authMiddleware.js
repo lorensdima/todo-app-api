@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
-// Matic na authenticated para testing
+const jwt = require("jsonwebtoken");
+
 exports.authenticate = (req, res, next) => {
-  if (req.isAuthenticated()) {
+  const token = req.session.token || req.header("Authorization");
+
+  if (req.isAuthenticated() && jwt.verify(token, "jwt-secret")) {
     return next();
   }
   res.json({
@@ -16,4 +19,23 @@ exports.isConnectedToDatabase = (req, res, next) => {
   } else {
     next();
   }
+};
+
+exports.authenticateToken = (req, res, next) => {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.sendStatus(401); // Unauthorized
+  }
+  jwt.verify(
+    token.split(" ")[1].replace(/"/g, ""),
+    "jwt-secret",
+    (err, user) => {
+      if (err) {
+        return res.sendStatus(403); // Forbidden
+      }
+      req.user = user;
+      next();
+    }
+  );
 };

@@ -1,13 +1,26 @@
 const Task = require("../models/taskModel");
 const { ObjectId } = require("mongoose").Types;
 
-exports.createTask = async (title, description, status, group, assignedTo) => {
+exports.createTask = async (
+  title,
+  description,
+  status,
+  group,
+  assignedTo,
+  collaborators,
+  dueDate,
+  modifiedBy
+) => {
+  const finalDueDate = new Date(dueDate);
   const task = new Task({
     title,
     description,
     status,
     group,
     assignedTo,
+    collaborators,
+    finalDueDate,
+    modifiedBy,
   });
 
   await task.save();
@@ -44,6 +57,8 @@ exports.updateTask = async (taskID, updatedData) => {
     status: updatedData.status,
     group: updatedData.group,
     assignedTo: new ObjectId(updatedData.assignedTo),
+    modified: new Date(),
+    modifiedBy: updatedData.modifiedBy,
   };
 
   try {
@@ -65,12 +80,12 @@ exports.deleteTask = async (taskId) => {
     const deletedTask = await Task.findByIdAndDelete(taskId);
 
     if (deletedTask) {
-      console.log('Task deleted successfully:', deletedTask);
+      console.log("Task deleted successfully:", deletedTask);
     } else {
-      console.log('Task not found');
+      console.log("Task not found");
     }
   } catch (error) {
-    console.error('Error deleting task:', error.message);
+    console.error("Error deleting task:", error.message);
   }
 };
 
@@ -88,7 +103,7 @@ exports.getTasksAndCountForUser = async (assignedToFilter) => {
 
     return { tasks, taskCount };
   } catch (error) {
-    console.error('Error retrieving tasks:', error.message);
-    return { error: 'Error retrieving tasks', tasks: [], taskCount: 0 };
+    console.error("Error retrieving tasks:", error.message);
+    return { error: "Error retrieving tasks", tasks: [], taskCount: 0 };
   }
 };

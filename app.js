@@ -73,6 +73,10 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
+app.get("/api/user", authMiddleware.authenticateToken, (req, res) => {
+  res.json(req.user);
+});
+
 // Routes
 app.use("/api", registerRoutes);
 

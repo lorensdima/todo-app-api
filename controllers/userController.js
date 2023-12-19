@@ -1,6 +1,7 @@
 const userService = require("../services/userService");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
+const jwt = require("jsonwebtoken");
 
 exports.createUser = async (req, res) => {
   try {
@@ -57,26 +58,10 @@ exports.login = (req, res, next) => {
       if (err) {
         return next(err);
       }
-      return res.json({ message: "Login successful", user });
+      const token = jwt.sign({ user }, "jwt-secret", { expiresIn: "1h" });
+      req.session.user = user;
+      req.session.token = token;
+      return res.json({ message: "Login successful", user, token });
     });
   })(req, res, next);
-};
-
-exports.authorize = async (req, res) => {
-  try {
-    const { username, password } = req.body;
-
-    const userObject = await userService.getUserData(username);
-
-    const storedPassword = userObject.password;
-
-    const compareFlag = await bcrypt.compare(password, storedPassword);
-
-    return compareFlag
-      ? res.json({ status: true, user: userObject })
-      : res.json({ status: false });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
 };
