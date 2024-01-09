@@ -2,12 +2,19 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
 exports.authenticate = (req, res, next) => {
-  const token = req.session.token || req.header("Authorization");
-
+  const tokenInput = req.session.token || req.header("Authorization");
+  
+  const temp = tokenInput.split(" ");
+  var token;
+  if (temp[0] == "Bearer") {
+    token = String(temp[1].slice(1, -1));
+  } else {
+    token = temp.join(" ");
+  }
   if (req.isAuthenticated() && jwt.verify(token, "jwt-secret")) {
     return next();
   }
-  res.json({
+  res.status(401).json({
     isAuthenticated: false,
     message: "Authorization Failed. Please Login.",
   });
