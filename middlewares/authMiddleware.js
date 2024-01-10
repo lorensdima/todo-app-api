@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 exports.authenticate = (req, res, next) => {
   const tokenInput = req.session.token || req.header("Authorization");
-  
+
   const temp = tokenInput.split(" ");
   var token;
   if (temp[0] == "Bearer") {
@@ -11,13 +11,14 @@ exports.authenticate = (req, res, next) => {
   } else {
     token = temp.join(" ");
   }
-  if (req.isAuthenticated() && jwt.verify(token, "jwt-secret")) {
+  if (req.isAuthenticated() || jwt.verify(token, "jwt-secret")) {
     return next();
+  } else {
+    res.status(401).json({
+      isAuthenticated: false,
+      message: "Authorization Failed. Please Login.",
+    });
   }
-  res.status(401).json({
-    isAuthenticated: false,
-    message: "Authorization Failed. Please Login.",
-  });
 };
 // Check lang kung connected sa db
 exports.isConnectedToDatabase = (req, res, next) => {
