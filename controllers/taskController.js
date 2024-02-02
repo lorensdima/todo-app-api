@@ -100,6 +100,20 @@ exports.getUsersTask = async (req, res) => {
   }
 };
 
+exports.getTaskData = async (req, res) => {
+  try {
+    const idInput = req.params.id;
+
+    // Use the userService to create an object with the provided string
+    const taskObject = await taskService.getTaskData(idInput);
+
+    res.json({ taskObject });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 exports.getTasksAndCountForUser = async (req, res) => {
   try {
     const assignedToFilter = req.params.assignedTo; // Assuming the parameter is part of the URL path

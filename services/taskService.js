@@ -49,6 +49,13 @@ exports.getUsersTask = async (assignedToFilter) => {
   return tasks;
 };
 
+exports.getTaskData = async (idFilter) => {
+  // Use the query to filter tasks
+  const task = await Task.findOne({ _id: idFilter });
+
+  return task;
+};
+
 exports.updateTask = async (taskID, updatedData) => {
   const filter = { _id: taskID };
   const update = {
