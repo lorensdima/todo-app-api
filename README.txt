@@ -1,3 +1,11 @@
+Simple Todo application. 
+
+FRONTEND REPOSITORY:
+https://github.com/acricmg/todo-app-react
+
+DATABASE REPOSITORY:
+https://github.com/lorensdima/todo-app-db
+
 To Run (first time):
 1. npm install
 2. npm run start
